@@ -227,7 +227,7 @@ Puzzle *Puzzle::moveLeft(){
 		p->path = path + "L";
 		p->pathLength = pathLength + 1;  
 		p->depth = depth + 1;
-		p->expansionPath = expansionPath.push(p->toString()); 
+		p->expansionPath.push_back(p->toString());
 		
 	}
 	p->strBoard = p->toString();
@@ -329,6 +329,12 @@ int Puzzle::getPathLength(){
 	return pathLength;
 }
 
-bool checkExpansionPath(){
-	
+bool Puzzle::checkExpansionPath(){
+	string currentStr = toString();
+	for(int i = 0; i < expansionPath.size(); i++){
+		if(currentStr == expansionPath[i]){
+			return true;
+		}
+	}
+	return false;
 }

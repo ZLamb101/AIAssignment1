@@ -9,7 +9,6 @@
 #include <cstdlib>
 
 #include "puzzle.h"
-#include "dataStructures.h"
 
 const heuristicFunction HEURISTIC_FUNCTION=manhattanDistance;
 

@@ -17,22 +17,42 @@ string breadthFirstSearch(string const initialState, string const goalState, int
     string path;
 	clock_t startTime;
     //add necessary variables here
-	Puzzle currentState = new Puzzle(initialState, goalState);
-	queue<Puzzle> Q = new queue<Puzzle>();
-	while(!currentState.goalMatch()){
-		if(currentState.canMoveUp()){
-			Q.push((Puzzle)currentState.moveUp());
+	Puzzle * currentState = new Puzzle(initialState, goalState);
+	Puzzle * nextState;
+	queue<Puzzle*>  *Q = new queue<Puzzle*>();
+	numOfStateExpansions = 0;
+	maxQLength = 0;
+	while(!currentState->goalMatch()){
+		numOfStateExpansions++;
+		if(currentState->canMoveUp()){
+			nextState = currentState->moveUp();
+			if(!nextState->checkExpansionPath()){
+				Q->push(nextState);
+			}
 		}
-		if(currentState.canMoveRight()){
-			Q.push((Puzzle)currentState.moveRight());
+		if(currentState->canMoveRight()){
+			nextState = currentState->moveRight();
+			if(!nextState->checkExpansionPath()){
+				Q->push(nextState);
+			}
 		}
-		if(currentState.canMoveDown()){
-			Q.push((Puzzle)currentState.moveDown());
+		if(currentState->canMoveDown()){
+			nextState = currentState->moveDown();
+			if(!nextState->checkExpansionPath()){
+				Q->push(nextState);
+			}
 		}
-		if(currentState.canMoveLeft()){
-			Q.push((Puzzle)currentState.moveLeft());
+		if(currentState->canMoveLeft()){
+			nextState = currentState->moveLeft();
+			if(!nextState->checkExpansionPath()){
+				Q->push(nextState);
+			}
 		}
-		currentState = Q.pop();
+		if(Q->size() > maxQLength){
+			maxQLength = Q->size();
+		}
+		currentState = Q->front();
+		Q->pop();
 	}
 
     //algorithm implementation
@@ -50,7 +70,8 @@ string breadthFirstSearch(string const initialState, string const goalState, int
 	
 //***********************************************************************************************************
 	actualRunningTime = ((float)(clock() - startTime)/CLOCKS_PER_SEC);
-	path = "DDRRLLLUUURDLUDURDLUU";  //this is just a dummy path for testing the function           
+	//path = "DDRRLLLUUURDLUDURDLUU";  //this is just a dummy path for testing the function
+	path = currentState->toString();           
 	return path;		
 		
 }

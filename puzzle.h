@@ -47,7 +47,7 @@ public:
 	 	  
 	 
     bool goalMatch();
-	 string toString();
+	string toString();
 	
     string getString(){
 		return strBoard;
@@ -57,6 +57,8 @@ public:
     bool canMoveRight();
     bool canMoveUp();
     bool canMoveDown();  
+
+    bool checkExpansionPath();
 
 //----------------------------------------
 //these functions will be useful for Progressive Deepening Search    
