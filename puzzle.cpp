@@ -24,6 +24,7 @@ Puzzle::Puzzle(const Puzzle &p) : path(p.path){
 	fCost = p.fCost;	
 	strBoard = toString(); //uses the board contents to generate the string equivalent
 	depth = p.depth;
+	expansionPath = p.expansionPath;
 	
 }
 
@@ -35,7 +36,7 @@ Puzzle::Puzzle(string const elements, string const goal){
 	
 	int n;
 	
-	n = 0;
+	n = 0;	
 	for(int i=0; i < 3; i++){
 		for(int j=0; j < 3; j++){	
 		    board[i][j] = elements[n] - '0';
@@ -140,10 +141,14 @@ string Puzzle::toString(){
 
 
 bool Puzzle::goalMatch(){
-	bool result=false;
-    
-    //this is incomplete...
-	return result;
+	for(int i = 0; i < 3; i++){
+		for(int j = 0; j < 3; j++){
+			if(goalBoard[i][j] != board[i][j]){
+				return false;
+			}
+		}
+	}
+	return true;
 }
 
 bool Puzzle::canMoveLeft(){
@@ -221,8 +226,8 @@ Puzzle *Puzzle::moveLeft(){
 		
 		p->path = path + "L";
 		p->pathLength = pathLength + 1;  
-		p->depth = depth + 1; 
-		
+		p->depth = depth + 1;
+		p->expansionPath = expansionPath.push(p->toString()); 
 		
 	}
 	p->strBoard = p->toString();

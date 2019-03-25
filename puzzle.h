@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <vector> 
 
 using namespace std;
 
@@ -22,6 +23,8 @@ private:
     int x0, y0; //coordinates of the blank or 0-tile
     
     int board[3][3];
+
+    vector<string> expansionPath;
     
 public:
     
