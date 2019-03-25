@@ -1,7 +1,7 @@
 
 
 #include "algorithm.h"
-
+#include <queue>
 using namespace std;
 
 
@@ -17,7 +17,23 @@ string breadthFirstSearch(string const initialState, string const goalState, int
     string path;
 	clock_t startTime;
     //add necessary variables here
-
+	Puzzle currentState = new Puzzle(initialState, goalState);
+	queue<Puzzle> Q = new queue<Puzzle>();
+	while(!currentState.goalMatch()){
+		if(currentState.canMoveUp()){
+			Q.push((Puzzle)currentState.moveUp());
+		}
+		if(currentState.canMoveRight()){
+			Q.push((Puzzle)currentState.moveRight());
+		}
+		if(currentState.canMoveDown()){
+			Q.push((Puzzle)currentState.moveDown());
+		}
+		if(currentState.canMoveLeft()){
+			Q.push((Puzzle)currentState.moveLeft());
+		}
+		currentState = Q.pop();
+	}
 
     //algorithm implementation
 	// cout << "------------------------------" << endl;

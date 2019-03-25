@@ -328,3 +328,7 @@ void Puzzle::printBoard(){
 int Puzzle::getPathLength(){
 	return pathLength;
 }
+
+bool checkExpansionPath(){
+	
+}
