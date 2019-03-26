@@ -95,7 +95,7 @@ string breadthFirstSearch(string const initialState, string const goalState, int
 	if(noResult){
 		path = "";
 	} else{
-		path = currentState->toString();
+		path = currentState->getPath();
 	}           
 	return path;			
 }
