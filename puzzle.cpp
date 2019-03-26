@@ -227,7 +227,7 @@ Puzzle *Puzzle::moveLeft(){
 		p->path = path + "L";
 		p->pathLength = pathLength + 1;  
 		p->depth = depth + 1;
-		p->expansionPath.push_back(p->toString());
+		p->expansionPath.push_front(p->toString());
 		
 	}
 	p->strBoard = p->toString();
@@ -253,7 +253,7 @@ Puzzle *Puzzle::moveRight(){
 		p->pathLength = pathLength + 1; 
      	
 		p->depth = depth + 1;
-		p->expansionPath.push_back(p->toString());
+		p->expansionPath.push_front(p->toString());
 		
 	}
 	
@@ -280,7 +280,7 @@ Puzzle *Puzzle::moveUp(){
 		p->pathLength = pathLength + 1;  
 	
 		p->depth = depth + 1;
-		p->expansionPath.push_back(p->toString());
+		p->expansionPath.push_front(p->toString());
 		
 	}
 	p->strBoard = p->toString();
@@ -305,7 +305,7 @@ Puzzle *Puzzle::moveDown(){
 		p->pathLength = pathLength + 1;  
 		
 		p->depth = depth + 1;
-		p->expansionPath.push_back(p->toString());
+		p->expansionPath.push_front(p->toString());
 		
 	}
 	p->strBoard = p->toString();	

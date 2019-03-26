@@ -1,6 +1,6 @@
 #include <string>
 #include <iostream>
-#include <vector> 
+#include <deque> 
 
 using namespace std;
 
@@ -24,7 +24,7 @@ private:
     
     int board[3][3];
 
-    vector<string> expansionPath;
+    deque<string> expansionPath;
     
 public:
     
