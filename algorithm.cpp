@@ -23,43 +23,28 @@ string breadthFirstSearch(string const initialState, string const goalState, int
 	numOfStateExpansions = 0;
 	maxQLength = 0;
 	bool noResult = false;
-	char temp;
-	//cout << endl << "Beginning Algorithm";
-	//cout << endl << "Current State is " << currentState->toString();
 	while(!currentState->goalMatch()){
-		//cout << endl << "Current State is " << currentState->toString() << " is NOT the goal state of " << goalState;
 		numOfStateExpansions++;
-		//cout << endl << "Number of state expansions is: " << numOfStateExpansions;
-		//cout << endl << "Board state is: " << endl;
-		//currentState->printBoard(); 
 		if(currentState->canMoveUp()){
 			nextState = currentState->moveUp();
-			//cout << endl << "Can move up, new state is: ";
-			//nextState->printBoard();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 				Q->push(nextState);
 			}
 		}
 		if(currentState->canMoveRight()){
 			nextState = currentState->moveRight();
-			//cout << endl << "Can move right, new state is: ";
-			//nextState->printBoard();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 				Q->push(nextState);
 			}
 		}
 		if(currentState->canMoveDown()){
 			nextState = currentState->moveDown();
-			//cout << endl << "Can move down, new state is: ";
-			//nextState->printBoard();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 				Q->push(nextState);
 			}
 		}
 		if(currentState->canMoveLeft()){
 			nextState = currentState->moveLeft();
-			//cout << endl << "Can move left, new state is: ";
-			//nextState->printBoard();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 				Q->push(nextState);
 			}
@@ -110,6 +95,7 @@ string breadthFirstSearch(string const initialState, string const goalState, int
 string breadthFirstSearch_with_VisitedList(string const initialState, string const goalState, int &numOfStateExpansions, int& maxQLength, float &actualRunningTime){
     string path;
 	clock_t startTime;
+	
     //add necessary variables here
 
 
@@ -120,9 +106,9 @@ string breadthFirstSearch_with_VisitedList(string const initialState, string con
 
 	startTime = clock();
 	
-	srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
-	maxQLength= rand() % 800; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
-	numOfStateExpansions = rand() % 600; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY
+	//srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
+	//maxQLength= rand() % 800; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
+	//numOfStateExpansions = rand() % 600; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY
 
 
 	
