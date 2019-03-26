@@ -253,6 +253,7 @@ Puzzle *Puzzle::moveRight(){
 		p->pathLength = pathLength + 1; 
      	
 		p->depth = depth + 1;
+		p->expansionPath.push_back(p->toString());
 		
 	}
 	
@@ -279,6 +280,7 @@ Puzzle *Puzzle::moveUp(){
 		p->pathLength = pathLength + 1;  
 	
 		p->depth = depth + 1;
+		p->expansionPath.push_back(p->toString());
 		
 	}
 	p->strBoard = p->toString();
@@ -303,6 +305,7 @@ Puzzle *Puzzle::moveDown(){
 		p->pathLength = pathLength + 1;  
 		
 		p->depth = depth + 1;
+		p->expansionPath.push_back(p->toString());
 		
 	}
 	p->strBoard = p->toString();	
@@ -318,23 +321,25 @@ void Puzzle::printBoard(){
 	cout << "board: "<< endl;
 	for(int i=0; i < 3; i++){
 		for(int j=0; j < 3; j++){	
-		  cout << endl << "board[" << i << "][" << j << "] = " << board[i][j];
+		  cout << board[i][j] << " ";
 		}
+		cout << endl;
 	}
 	cout << endl;
-	
 }
 
 int Puzzle::getPathLength(){
 	return pathLength;
 }
 
-bool Puzzle::checkExpansionPath(){
-	string currentStr = toString();
+bool Puzzle::checkExpansionPath(const string &nextStr){
+	//cout << "State is " << nextStr << endl << "Path is:";
 	for(int i = 0; i < expansionPath.size(); i++){
-		if(currentStr == expansionPath[i]){
+		//cout << expansionPath[i] << " ";
+		if(nextStr == expansionPath[i]){
 			return true;
 		}
 	}
+	//cout << endl;
 	return false;
 }

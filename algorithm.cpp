@@ -22,35 +22,56 @@ string breadthFirstSearch(string const initialState, string const goalState, int
 	queue<Puzzle*>  *Q = new queue<Puzzle*>();
 	numOfStateExpansions = 0;
 	maxQLength = 0;
+	bool noResult = false;
+	char temp;
+	//cout << endl << "Beginning Algorithm";
+	//cout << endl << "Current State is " << currentState->toString();
 	while(!currentState->goalMatch()){
+		//cout << endl << "Current State is " << currentState->toString() << " is NOT the goal state of " << goalState;
 		numOfStateExpansions++;
+		//cout << endl << "Number of state expansions is: " << numOfStateExpansions;
+		//cout << endl << "Board state is: " << endl;
+		//currentState->printBoard(); 
 		if(currentState->canMoveUp()){
 			nextState = currentState->moveUp();
-			if(!nextState->checkExpansionPath()){
+			//cout << endl << "Can move up, new state is: ";
+			//nextState->printBoard();
+			if(!currentState->checkExpansionPath(nextState->toString())){
 				Q->push(nextState);
 			}
 		}
 		if(currentState->canMoveRight()){
 			nextState = currentState->moveRight();
-			if(!nextState->checkExpansionPath()){
+			//cout << endl << "Can move right, new state is: ";
+			//nextState->printBoard();
+			if(!currentState->checkExpansionPath(nextState->toString())){
 				Q->push(nextState);
 			}
 		}
 		if(currentState->canMoveDown()){
 			nextState = currentState->moveDown();
-			if(!nextState->checkExpansionPath()){
+			//cout << endl << "Can move down, new state is: ";
+			//nextState->printBoard();
+			if(!currentState->checkExpansionPath(nextState->toString())){
 				Q->push(nextState);
 			}
 		}
 		if(currentState->canMoveLeft()){
 			nextState = currentState->moveLeft();
-			if(!nextState->checkExpansionPath()){
+			//cout << endl << "Can move left, new state is: ";
+			//nextState->printBoard();
+			if(!currentState->checkExpansionPath(nextState->toString())){
 				Q->push(nextState);
 			}
+		}
+		if(Q->size() == 0){
+			noResult = true;
+			break;
 		}
 		if(Q->size() > maxQLength){
 			maxQLength = Q->size();
 		}
+		delete currentState;
 		currentState = Q->front();
 		Q->pop();
 	}
@@ -71,9 +92,12 @@ string breadthFirstSearch(string const initialState, string const goalState, int
 //***********************************************************************************************************
 	actualRunningTime = ((float)(clock() - startTime)/CLOCKS_PER_SEC);
 	//path = "DDRRLLLUUURDLUDURDLUU";  //this is just a dummy path for testing the function
-	path = currentState->toString();           
-	return path;		
-		
+	if(noResult){
+		path = "";
+	} else{
+		path = currentState->toString();
+	}           
+	return path;			
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

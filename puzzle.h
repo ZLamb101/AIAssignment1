@@ -58,7 +58,7 @@ public:
     bool canMoveUp();
     bool canMoveDown();  
 
-    bool checkExpansionPath();
+    bool checkExpansionPath(const string&);
 
 //----------------------------------------
 //these functions will be useful for Progressive Deepening Search    
