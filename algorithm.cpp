@@ -16,6 +16,7 @@ using namespace std;
 string breadthFirstSearch(string const initialState, string const goalState, int &numOfStateExpansions, int& maxQLength, float &actualRunningTime){
     string path;
 	clock_t startTime;
+	startTime = clock();
     //add necessary variables here
 	Puzzle * currentState = new Puzzle(initialState, goalState);
 	Puzzle * nextState;
@@ -66,7 +67,7 @@ string breadthFirstSearch(string const initialState, string const goalState, int
  //    cout << "<<breadthFirstSearch>>" << endl;
  //    cout << "------------------------------" << endl;
     
-	startTime = clock();
+	
 	
 	// srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
 	// maxQLength= rand() % 1500; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
@@ -95,64 +96,100 @@ string breadthFirstSearch(string const initialState, string const goalState, int
 string breadthFirstSearch_with_VisitedList(string const initialState, string const goalState, int &numOfStateExpansions, int& maxQLength, float &actualRunningTime){
     string path;
 	clock_t startTime;
-	
+	startTime = clock();
     //add necessary variables here
-
+	Puzzle * currentState = new Puzzle(initialState, goalState);
+	Puzzle * nextState;
+	queue<Puzzle*>  *Q = new queue<Puzzle*>();
+	vector<string> *VisitedList = new vector<string>();
+	numOfStateExpansions = 0;
+	maxQLength = 0;
+	bool noResult = false;
+	while(!currentState->goalMatch()){
+		numOfStateExpansions++;
+		if(currentState->canMoveUp()){
+			nextState = currentState->moveUp();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+				if(!isVisited(VisitedList, nextState->toString())){
+					VisitedList->push_back(nextState->toString());
+					Q->push(nextState);
+				}
+			}
+		}
+		if(currentState->canMoveRight()){
+			nextState = currentState->moveRight();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+				if(!isVisited(VisitedList, nextState->toString())){
+					VisitedList->push_back(nextState->toString());
+					Q->push(nextState);
+				}
+			}
+		}
+		if(currentState->canMoveDown()){
+			nextState = currentState->moveDown();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+				if(!isVisited(VisitedList, nextState->toString())){
+					VisitedList->push_back(nextState->toString());
+					Q->push(nextState);
+				}
+			}
+		}
+		if(currentState->canMoveLeft()){
+			nextState = currentState->moveLeft();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+				if(!isVisited(VisitedList, nextState->toString())){
+					VisitedList->push_back(nextState->toString());
+					Q->push(nextState);
+				}
+			}
+		}
+		if(Q->size() == 0){
+			noResult = true;
+			break;
+		}
+		if(Q->size() > maxQLength){
+			maxQLength = Q->size();
+		}
+		delete currentState;
+		currentState = Q->front();
+		Q->pop();
+	}
 
     //algorithm implementation
 	// cout << "------------------------------" << endl;
- //    cout << "<<breadthFirstSearch_with_VisitedList>>" << endl;
+ //    cout << "<<breadthFirstSearch>>" << endl;
  //    cout << "------------------------------" << endl;
-
-	startTime = clock();
 	
-	//srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
-	//maxQLength= rand() % 800; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
-	//numOfStateExpansions = rand() % 600; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY
+	// srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
+	// maxQLength= rand() % 1500; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
+	// numOfStateExpansions = rand() % 800; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY
 
-
+	
 	
 //***********************************************************************************************************
 	actualRunningTime = ((float)(clock() - startTime)/CLOCKS_PER_SEC);
-	path = "DDRRLLLUUURDLUDURDLUU";  //this is just a dummy path for testing the function           
-	return path;		
-		
+	//path = "DDRRLLLUUURDLUDURDLUU";  //this is just a dummy path for testing the function
+	if(noResult){
+		path = "";
+	} else{
+		path = currentState->getPath();
+	}           
+	return path;
+}
+	
+
+bool isVisited(const vector<string> *VisitedList, const string &state){
+	if (find(VisitedList->begin(), VisitedList->end(), state) != VisitedList->end() ){
+		return true;
+	} else {
+		return false;
+	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//
-// Search Algorithm:  
-//
-// Move Generator:  
-//
-////////////////////////////////////////////////////////////////////////////////////////////
+
 string progressiveDeepeningSearch_No_VisitedList(string const initialState, string const goalState, int &numOfStateExpansions, int& maxQLength, float &actualRunningTime, int ultimateMaxDepth){
-    string path;
-	clock_t startTime;
-    //add necessary variables here
-
-
-    //algorithm implementation
-	// cout << "------------------------------" << endl;
- //    cout << "<<progressiveDeepeningSearch_No_VisitedList>>" << endl;
- //    cout << "------------------------------" << endl;
-
-	startTime = clock();
-	srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
-	maxQLength= rand() % 500; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
-	numOfStateExpansions = rand() % 600; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY
-
-	
-	
-//***********************************************************************************************************
-	actualRunningTime = ((float)(clock() - startTime)/CLOCKS_PER_SEC);
-	path = "DDRRLLLUUURDLUDURDLUUDDRRLLLUUURDLUDURDLUUDDRRLLLUUURDLUDURDLUUDDRRLLLUUURDLUDURDLUUDDRRLLLUUURDLUDURDLUUDDRRLLLUUURDLUDURDLUUDDRRLLLUUURDLUDURDLUUDDRRLLLUUURDLUDURDLUU";  //this is just a dummy path for testing the function           
-	return path;		
-		
+	return "";
 }
-	
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //
