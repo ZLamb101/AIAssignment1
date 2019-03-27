@@ -78,6 +78,8 @@ public:
     
     void setDepth(int d);
     int getDepth();
+
+    int getCurrentDepth();
     
     int getPathLength();
     int getFCost();

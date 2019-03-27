@@ -2,6 +2,7 @@
 
 #include "algorithm.h"
 #include <queue>
+#include <stack>
 using namespace std;
 
 
@@ -188,7 +189,74 @@ bool isVisited(const vector<string> *VisitedList, const string &state){
 
 
 string progressiveDeepeningSearch_No_VisitedList(string const initialState, string const goalState, int &numOfStateExpansions, int& maxQLength, float &actualRunningTime, int ultimateMaxDepth){
-	return "";
+	string path;
+	clock_t startTime;
+	startTime = clock();
+    //add necessary variables here
+	Puzzle * currentState = new Puzzle(initialState, goalState);
+	Puzzle * nextState;
+	stack<Puzzle*>  *Q = new stack<Puzzle*>();
+	numOfStateExpansions = 0;
+	maxQLength = 0;
+	int C = 1;
+	bool noResult = false;
+	while(!currentState->goalMatch()){
+		numOfStateExpansions++;
+		if(currentState->canMoveUp(C)){
+			nextState = currentState->moveUp();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+					Q->push(nextState);
+					if(noResult){
+						noResult = false;
+					}
+			}
+		}
+		if(currentState->canMoveRight(C)){
+			nextState = currentState->moveUp();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+					Q->push(nextState);
+					if(noResult){
+						noResult = false;
+					}
+			}
+		}
+		if(currentState->canMoveDown(C)){
+			nextState = currentState->moveUp();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+					Q->push(nextState);
+					if(noResult){
+						noResult = false;
+					}
+			}
+		}
+		if(currentState->canMoveLeft(C)){
+			nextState = currentState->moveUp();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+					Q->push(nextState);
+					if(noResult){
+						noResult = false;
+					}
+			}
+		}
+		if(Q->empty()){
+			if(noResult){
+				break;
+			}
+			C++;
+		}
+		if(((C-1) == (Q->top()->getCurrentDepth())) && ((currentState->getCurrentDepth()+1) == (Q->top()->getCurrentDepth()))){
+				noResult = true;
+		}
+		delete currentState;
+		currentState = Q->top();
+		Q->pop();
+	}
+	if(noResult){
+		path = "";
+	} else{
+		path = currentState->getPath();    
+	}
+	return path;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

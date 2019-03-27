@@ -151,6 +151,10 @@ bool Puzzle::goalMatch(){
 	return true;
 }
 
+int Puzzle::getCurrentDepth(){
+	return expansionPath.size();
+}
+
 bool Puzzle::canMoveLeft(){
    return (x0 > 0);
 	
@@ -161,9 +165,7 @@ const string Puzzle::getPath(){
 }
 
 bool Puzzle::canMoveRight(){
-
-   return (x0 < 2);
-	
+	return (x0 < 2);	
 }
 
 
@@ -183,31 +185,32 @@ bool Puzzle::canMoveDown(){
 //these functions will be useful for Progressive Deepening Search 
 
 bool Puzzle::canMoveLeft(int maxDepth){
-  	
-  	bool m=false;
-  	//put your implementations here
-  	return m; 
+  	if(x0 > 0){
+  		return (expansionPath.size() < maxDepth);
+  	}
+  	return false;
 }
 bool Puzzle::canMoveRight(int maxDepth){
    
-  	bool m=false;
-  	//put your implementations here
-  	return m; 
+  	if(x0 < 2){
+  		return (expansionPath.size() < maxDepth);
+  	}
+  	return false;
 }
 
 
 bool Puzzle::canMoveUp(int maxDepth){
-   
-  	bool m=false;
-  	//put your implementations here
-  	return m; 
+    if(y0 > 0){
+  		return (expansionPath.size() < maxDepth);
+  	}
+  	return false;
 }
 
 bool Puzzle::canMoveDown(int maxDepth){
-   
-  	bool m=false;
-  	//put your implementations here
-  	return m; 
+  	if(y0 < 2){
+  		return (expansionPath.size() < maxDepth);
+  	}
+  	return false;
 }
 
 ///////////////////////////////////////////////
