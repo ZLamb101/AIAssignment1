@@ -243,6 +243,9 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 				break;
 			}
 			C++;
+			delete currentState;
+			currentState = new Puzzle(initialState, goalState);
+			continue;
 		}
 		if(((C-1) == (Q->top()->getCurrentDepth())) && ((currentState->getCurrentDepth()+1) == (Q->top()->getCurrentDepth()))){
 				noResult = true;
