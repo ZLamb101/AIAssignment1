@@ -10,6 +10,8 @@
 #include <vector>
 
 #include "puzzle.h"
+#include "hashtable.h"
+#include "node.h"
 
 const heuristicFunction HEURISTIC_FUNCTION=manhattanDistance;
 
