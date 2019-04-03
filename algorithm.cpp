@@ -199,66 +199,69 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 	numOfStateExpansions = 0;
 	maxQLength = 0;
 	int C = 1;
-	bool noResult = false;
+	//bool noResult = false;
 	while(!currentState->goalMatch()){
 		numOfStateExpansions++;
 		if(currentState->canMoveUp(C)){
 			nextState = currentState->moveUp();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
-					if(noResult){
-						noResult = false;
-					}
+					// if(noResult){
+					// 	noResult = false;
+					// }
 			}
 		}
 		if(currentState->canMoveRight(C)){
 			nextState = currentState->moveUp();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
-					if(noResult){
-						noResult = false;
-					}
+					// if(noResult){
+					// 	noResult = false;
+					// }
 			}
 		}
 		if(currentState->canMoveDown(C)){
 			nextState = currentState->moveUp();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
-					if(noResult){
-						noResult = false;
-					}
+					// if(noResult){
+					// 	noResult = false;
+					// }
 			}
 		}
 		if(currentState->canMoveLeft(C)){
 			nextState = currentState->moveUp();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
-					if(noResult){
-						noResult = false;
-					}
+					// if(noResult){
+					// 	noResult = false;
+					// }
 			}
 		}
 		if(Q->empty()){
-			if(noResult){
+			// if(noResult){
+			// 	break;
+			// }
+			C++;
+			if(C > 50){
 				break;
 			}
-			C++;
 			delete currentState;
 			currentState = new Puzzle(initialState, goalState);
 			continue;
 		}
-		if(((C-1) == (Q->top()->getCurrentDepth())) && ((currentState->getCurrentDepth()+1) == (Q->top()->getCurrentDepth()))){
-				noResult = true;
-		}
+		// if(((C-1) == (Q->top()->getCurrentDepth())) && ((currentState->getCurrentDepth()+1) == (Q->top()->getCurrentDepth()))){
+				// noResult = true;
+		// }
 		delete currentState;
 		currentState = Q->top();
 		Q->pop();
 	}
-	if(noResult){
+	if(C > 50){
 		path = "";
 	} else{
-		path = currentState->getPath();    
-	}
+		path = currentState->getPath();
+	}    
 	return path;
 }
 
@@ -280,22 +283,80 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
    numOfAttemptedNodeReExpansions=0;
 
 
+
+
     // cout << "------------------------------" << endl;
     // cout << "<<uniformCost_ExpandedList>>" << endl;
     // cout << "------------------------------" << endl;
 	actualRunningTime=0.0;	
 	startTime = clock();
-	srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
-	maxQLength= rand() % 200; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
-	numOfStateExpansions = rand() % 200; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY
-
+	// srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
+	// maxQLength= rand() % 200; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
+	// numOfStateExpansions = rand() % 200; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY
+	Puzzle * currentState = new Puzzle(initialState, goalState);
+    Puzzle * nextState;
+    vector<Puzzle*>  *Q = new vector<Puzzle*>();
+    vector<string> *ExpandedList = new vector<string>();
+    numOfStateExpansions = 0;
+    maxQLength = 0;
+	while(!currentState->goalMatch()){
+		ExpandedList->push_back(currentState->toString());
+		numOfStateExpansions++;
+		if(currentState->canMoveUp()){
+			nextState = currentState->moveUp();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+				if(!isVisited(ExpandedList, nextState->toString())){
+					Q->emplace(Q->begin(), nextState);
+				}
+			}
+		}
+		if(currentState->canMoveRight()){
+			nextState = currentState->moveUp();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+				if(!isVisited(ExpandedList, nextState->toString())){
+					Q->emplace(Q->begin(), nextState);
+				}
+			}
+		}
+		if(currentState->canMoveDown()){
+			nextState = currentState->moveUp();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+				if(!isVisited(ExpandedList, nextState->toString())){
+					Q->emplace(Q->begin(), nextState);
+				}
+			}
+		}
+		if(currentState->canMoveLeft()){
+			nextState = currentState->moveUp();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+				if(!isVisited(ExpandedList, nextState->toString())){
+					Q->emplace(Q->begin(), nextState);
+				}
+			}
+		}
+		if(Q->size() > maxQLength){
+			maxQLength = Q->size();
+		}
+		delete currentState;
+		// Find next best cost
+		Puzzle temp = Q[0];
+		int min = temp->getGCost();
+		int min_ix = 0;
+		for(int i = 0; i < Q->size(); i++){
+			if(Q[i].getGCost() < min){
+				min = Q[i].getGCost();
+				min_ix = i;
+			}
+		}
+		currentState = Q[min_ix];
+		Q->erase(Q->begin() + min_ix);
+	}
 
 	
 	
 //***********************************************************************************************************
 	actualRunningTime = ((float)(clock() - startTime)/CLOCKS_PER_SEC);
-	path = "DDRRLLLUUURDLUDURDLUU"; //this is just a dummy path for testing the function
-	             
+	path = currentState->getPath();         
 	return path;		
 		
 }
