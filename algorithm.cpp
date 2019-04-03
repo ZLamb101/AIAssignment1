@@ -19,7 +19,6 @@ string breadthFirstSearch(string const initialState, string const goalState, int
     string path;
 	clock_t startTime;
 	startTime = clock();
-    //add necessary variables here
 	Puzzle * currentState = new Puzzle(initialState, goalState);
 	Puzzle * nextState;
 	queue<Puzzle*>  *Q = new queue<Puzzle*>();
@@ -63,23 +62,9 @@ string breadthFirstSearch(string const initialState, string const goalState, int
 		currentState = Q->front();
 		Q->pop();
 	}
-
-    //algorithm implementation
-	// cout << "------------------------------" << endl;
- //    cout << "<<breadthFirstSearch>>" << endl;
- //    cout << "------------------------------" << endl;
-    
-	
-	
-	// srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
-	// maxQLength= rand() % 1500; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
-	// numOfStateExpansions = rand() % 800; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY
-
-	
 	
 //***********************************************************************************************************
 	actualRunningTime = ((float)(clock() - startTime)/CLOCKS_PER_SEC);
-	//path = "DDRRLLLUUURDLUDURDLUU";  //this is just a dummy path for testing the function
 	if(noResult){
 		path = "";
 	} else{
@@ -99,7 +84,6 @@ string breadthFirstSearch_with_VisitedList(string const initialState, string con
     string path;
 	clock_t startTime;
 	startTime = clock();
-    //add necessary variables here
 	Puzzle * currentState = new Puzzle(initialState, goalState);
 	Puzzle * nextState;
 	queue<Puzzle*>  *Q = new queue<Puzzle*>();
@@ -156,21 +140,9 @@ string breadthFirstSearch_with_VisitedList(string const initialState, string con
 		currentState = Q->front();
 		Q->pop();
 	}
-
-    //algorithm implementation
-	// cout << "------------------------------" << endl;
- //    cout << "<<breadthFirstSearch>>" << endl;
- //    cout << "------------------------------" << endl;
-	
-	// srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
-	// maxQLength= rand() % 1500; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
-	// numOfStateExpansions = rand() % 800; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY
-
-	
 	
 //***********************************************************************************************************
 	actualRunningTime = ((float)(clock() - startTime)/CLOCKS_PER_SEC);
-	//path = "DDRRLLLUUURDLUDURDLUU";  //this is just a dummy path for testing the function
 	if(noResult){
 		path = "";
 	} else{
@@ -193,56 +165,39 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 	string path;
 	clock_t startTime;
 	startTime = clock();
-    //add necessary variables here
 	Puzzle * currentState = new Puzzle(initialState, goalState);
 	Puzzle * nextState;
 	stack<Puzzle*>  *Q = new stack<Puzzle*>();
 	numOfStateExpansions = 0;
 	maxQLength = 0;
 	int C = 1;
-	//bool noResult = false;
 	while(!currentState->goalMatch()){
 		numOfStateExpansions++;
 		if(currentState->canMoveUp(C)){
 			nextState = currentState->moveUp();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
-					// if(noResult){
-					// 	noResult = false;
-					// }
 			}
 		}
 		if(currentState->canMoveRight(C)){
 			nextState = currentState->moveRight();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
-					// if(noResult){
-					// 	noResult = false;
-					// }
 			}
 		}
 		if(currentState->canMoveDown(C)){
 			nextState = currentState->moveDown();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
-					// if(noResult){
-					// 	noResult = false;
-					// }
 			}
 		}
 		if(currentState->canMoveLeft(C)){
 			nextState = currentState->moveLeft();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
-					// if(noResult){
-					// 	noResult = false;
-					// }
 			}
 		}
 		if(Q->empty()){
-			// if(noResult){
-			// 	break;
-			// }
 			C++;
 			if(C > 50){
 				break;
@@ -251,9 +206,6 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 			currentState = new Puzzle(initialState, goalState);
 			continue;
 		}
-		// if(((C-1) == (Q->top()->getCurrentDepth())) && ((currentState->getCurrentDepth()+1) == (Q->top()->getCurrentDepth()))){
-				// noResult = true;
-		// }
 		delete currentState;
 		currentState = Q->top();
 		Q->pop();
@@ -282,18 +234,8 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
    numOfDeletionsFromMiddleOfHeap=0;
    numOfLocalLoopsAvoided=0;
    numOfAttemptedNodeReExpansions=0;
-
-
-
-
-    // cout << "------------------------------" << endl;
-    // cout << "<<uniformCost_ExpandedList>>" << endl;
-    // cout << "------------------------------" << endl;
 	actualRunningTime=0.0;	
 	startTime = clock();
-	// srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
-	// maxQLength= rand() % 200; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
-	// numOfStateExpansions = rand() % 200; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY
 	Puzzle * currentState = new Puzzle(initialState, goalState);
     Puzzle * nextState;
     vector<Puzzle*>  *Q = new vector<Puzzle*>();
@@ -302,16 +244,7 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
     maxQLength = 0;
     bool noResult = false;
 	while(!currentState->goalMatch()){
-		// cout << "Current State is: " << currentState->toString() << endl;
 		ExpandedList->push_back(currentState->toString());
-		// cout << "Expanded List is: ";
-		// for(int i = 0; i < ExpandedList->size(); i ++){
-		// 	string temp = ExpandedList->at(i);
-		// 	cout << " " << temp << " "; 
-		// }
-		// cout << endl;
-		// // string t;
-		// // cin >> t;
 		numOfStateExpansions++;
 		if(currentState->canMoveUp()){
 			nextState = currentState->moveUp();
@@ -397,18 +330,8 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
    numOfDeletionsFromMiddleOfHeap=0;
    numOfLocalLoopsAvoided=0;
    numOfAttemptedNodeReExpansions=0;
-
-
-
-
-    // cout << "------------------------------" << endl;
-    // cout << "<<uniformCost_ExpandedList>>" << endl;
-    // cout << "------------------------------" << endl;
 	actualRunningTime=0.0;	
 	startTime = clock();
-	// srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
-	// maxQLength= rand() % 200; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
-	// numOfStateExpansions = rand() % 200; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY
 	Puzzle * currentState = new Puzzle(initialState, goalState);
     Puzzle * nextState;
     vector<Puzzle*>  *Q = new vector<Puzzle*>();
@@ -417,16 +340,7 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
     maxQLength = 0;
     bool noResult = false;
 	while(!currentState->goalMatch()){
-		// cout << "Current State is: " << currentState->toString() << endl;
 		ExpandedList->push_back(currentState->toString());
-		// cout << "Expanded List is: ";
-		// for(int i = 0; i < ExpandedList->size(); i ++){
-		// 	string temp = ExpandedList->at(i);
-		// 	cout << " " << temp << " "; 
-		// }
-		// cout << endl;
-		// // string t;
-		// // cin >> t;
 		numOfStateExpansions++;
 		if(currentState->canMoveUp()){
 			nextState = currentState->moveUp();
@@ -490,9 +404,6 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
 		currentState = Q->at(min_ix);
 		Q->erase(Q->begin() + min_ix);
 	}
-
-	
-	
 //***********************************************************************************************************
 	actualRunningTime = ((float)(clock() - startTime)/CLOCKS_PER_SEC);
 	if(noResult){
