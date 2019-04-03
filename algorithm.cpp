@@ -3,6 +3,7 @@
 #include "algorithm.h"
 #include <queue>
 #include <stack>
+#include <conio.h>
 using namespace std;
 
 
@@ -212,7 +213,7 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 			}
 		}
 		if(currentState->canMoveRight(C)){
-			nextState = currentState->moveUp();
+			nextState = currentState->moveRight();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
 					// if(noResult){
@@ -221,7 +222,7 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 			}
 		}
 		if(currentState->canMoveDown(C)){
-			nextState = currentState->moveUp();
+			nextState = currentState->moveDown();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
 					// if(noResult){
@@ -230,7 +231,7 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 			}
 		}
 		if(currentState->canMoveLeft(C)){
-			nextState = currentState->moveUp();
+			nextState = currentState->moveLeft();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
 					// if(noResult){
@@ -299,8 +300,18 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
     vector<string> *ExpandedList = new vector<string>();
     numOfStateExpansions = 0;
     maxQLength = 0;
+    bool noResult = false;
 	while(!currentState->goalMatch()){
+		// cout << "Current State is: " << currentState->toString() << endl;
 		ExpandedList->push_back(currentState->toString());
+		// cout << "Expanded List is: ";
+		// for(int i = 0; i < ExpandedList->size(); i ++){
+		// 	string temp = ExpandedList->at(i);
+		// 	cout << " " << temp << " "; 
+		// }
+		// cout << endl;
+		// // string t;
+		// // cin >> t;
 		numOfStateExpansions++;
 		if(currentState->canMoveUp()){
 			nextState = currentState->moveUp();
@@ -311,7 +322,7 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
 			}
 		}
 		if(currentState->canMoveRight()){
-			nextState = currentState->moveUp();
+			nextState = currentState->moveRight();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 				if(!isVisited(ExpandedList, nextState->toString())){
 					Q->emplace(Q->begin(), nextState);
@@ -319,7 +330,7 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
 			}
 		}
 		if(currentState->canMoveDown()){
-			nextState = currentState->moveUp();
+			nextState = currentState->moveDown();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 				if(!isVisited(ExpandedList, nextState->toString())){
 					Q->emplace(Q->begin(), nextState);
@@ -327,7 +338,7 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
 			}
 		}
 		if(currentState->canMoveLeft()){
-			nextState = currentState->moveUp();
+			nextState = currentState->moveLeft();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 				if(!isVisited(ExpandedList, nextState->toString())){
 					Q->emplace(Q->begin(), nextState);
@@ -338,6 +349,10 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
 			maxQLength = Q->size();
 		}
 		delete currentState;
+		if(Q->empty()){
+			noResult = true;
+			break;
+		}
 		// Find next best cost
 		Puzzle* temp = Q->at(0);
 		int min = temp->getGCost();
@@ -357,9 +372,12 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
 	
 //***********************************************************************************************************
 	actualRunningTime = ((float)(clock() - startTime)/CLOCKS_PER_SEC);
-	path = currentState->getPath();         
-	return path;		
-		
+	if(noResult){
+		path = "";
+	} else{	
+		path = currentState->getPath();  
+	}       
+	return path;				
 }
 
 
@@ -381,24 +399,108 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
    numOfAttemptedNodeReExpansions=0;
 
 
+
+
     // cout << "------------------------------" << endl;
-    // cout << "<<aStar_ExpandedList>>" << endl;
+    // cout << "<<uniformCost_ExpandedList>>" << endl;
     // cout << "------------------------------" << endl;
 	actualRunningTime=0.0;	
 	startTime = clock();
-	srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
-	maxQLength= rand() % 200; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
-	numOfStateExpansions = rand() % 200; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY
-
+	// srand(time(NULL)); //RANDOM NUMBER GENERATOR - ONLY FOR THIS DEMO.  YOU REALLY DON'T NEED THIS! DISABLE THIS STATEMENT.
+	// maxQLength= rand() % 200; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY.
+	// numOfStateExpansions = rand() % 200; //AT THE MOMENT, THIS IS JUST GENERATING SOME DUMMY VALUE.  YOUR ALGORITHM IMPLEMENTATION SHOULD COMPUTE THIS PROPERLY
+	Puzzle * currentState = new Puzzle(initialState, goalState);
+    Puzzle * nextState;
+    vector<Puzzle*>  *Q = new vector<Puzzle*>();
+    vector<string> *ExpandedList = new vector<string>();
+    numOfStateExpansions = 0;
+    maxQLength = 0;
+    bool noResult = false;
+	while(!currentState->goalMatch()){
+		// cout << "Current State is: " << currentState->toString() << endl;
+		ExpandedList->push_back(currentState->toString());
+		// cout << "Expanded List is: ";
+		// for(int i = 0; i < ExpandedList->size(); i ++){
+		// 	string temp = ExpandedList->at(i);
+		// 	cout << " " << temp << " "; 
+		// }
+		// cout << endl;
+		// // string t;
+		// // cin >> t;
+		numOfStateExpansions++;
+		if(currentState->canMoveUp()){
+			nextState = currentState->moveUp();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+				if(!isVisited(ExpandedList, nextState->toString())){
+					nextState->updateHCost(heuristic);
+					nextState->updateFCost();
+					Q->emplace(Q->begin(), nextState);
+				}
+			}
+		}
+		if(currentState->canMoveRight()){
+			nextState = currentState->moveRight();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+				if(!isVisited(ExpandedList, nextState->toString())){
+					nextState->updateHCost(heuristic);
+					nextState->updateFCost();
+					Q->emplace(Q->begin(), nextState);
+				}
+			}
+		}
+		if(currentState->canMoveDown()){
+			nextState = currentState->moveDown();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+				if(!isVisited(ExpandedList, nextState->toString())){
+					nextState->updateHCost(heuristic);
+					nextState->updateFCost();
+					Q->emplace(Q->begin(), nextState);
+				}
+			}
+		}
+		if(currentState->canMoveLeft()){
+			nextState = currentState->moveLeft();
+			if(!currentState->checkExpansionPath(nextState->toString())){
+				if(!isVisited(ExpandedList, nextState->toString())){
+					nextState->updateHCost(heuristic);
+					nextState->updateFCost();
+					Q->emplace(Q->begin(), nextState);
+				}
+			}
+		}
+		if(Q->size() > maxQLength){
+			maxQLength = Q->size();
+		}
+		delete currentState;
+		if(Q->empty()){
+			noResult = true;
+			break;
+		}
+		// Find next best cost
+		Puzzle* temp = Q->at(0);
+		int min = temp->getFCost();
+		int min_ix = 0;
+		for(int i = 0; i < Q->size(); i++){
+			temp = Q->at(i);
+			if(temp->getFCost() < min){
+				min = temp->getFCost();
+				min_ix = i;
+			}
+		}
+		currentState = Q->at(min_ix);
+		Q->erase(Q->begin() + min_ix);
+	}
 
 	
 	
 //***********************************************************************************************************
 	actualRunningTime = ((float)(clock() - startTime)/CLOCKS_PER_SEC);
-	path = "DDRRLLLUUURDLUDURDLUU"; //this is just a dummy path for testing the function
-	             
-	return path;		
-		
+	if(noResult){
+		path = "";
+	} else {	
+		path = currentState->getPath();  
+	}       
+	return path;	
 }
 
 

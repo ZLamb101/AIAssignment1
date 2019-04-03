@@ -212,14 +212,13 @@ bool Puzzle::canMoveLeft(int maxDepth){
   	}
   	return false;
 }
+
 bool Puzzle::canMoveRight(int maxDepth){
-   
   	if(x0 < 2){
   		return (expansionPath.size() < maxDepth);
   	}
   	return false;
 }
-
 
 bool Puzzle::canMoveUp(int maxDepth){
     if(y0 > 0){
