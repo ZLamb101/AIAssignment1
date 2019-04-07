@@ -1,5 +1,5 @@
 
-
+#include "hashtable.h"
 #include "algorithm.h"
 #include <queue>
 #include <stack>
@@ -87,7 +87,7 @@ string breadthFirstSearch_with_VisitedList(string const initialState, string con
 	Puzzle * currentState = new Puzzle(initialState, goalState);
 	Puzzle * nextState;
 	queue<Puzzle*>  *Q = new queue<Puzzle*>();
-	vector<string> *VisitedList = new vector<string>();
+	HashTable *VisitedList = new HashTable();
 	numOfStateExpansions = 0;
 	maxQLength = 0;
 	bool noResult = false;
@@ -96,8 +96,7 @@ string breadthFirstSearch_with_VisitedList(string const initialState, string con
 		if(currentState->canMoveUp()){
 			nextState = currentState->moveUp();
 			if(!currentState->checkExpansionPath(nextState->toString())){
-				if(!isVisited(VisitedList, nextState->toString())){
-					VisitedList->push_back(nextState->toString());
+				if(VisitedList->checkHash(nextState->toString())){
 					Q->push(nextState);
 				}
 			}
@@ -105,8 +104,7 @@ string breadthFirstSearch_with_VisitedList(string const initialState, string con
 		if(currentState->canMoveRight()){
 			nextState = currentState->moveRight();
 			if(!currentState->checkExpansionPath(nextState->toString())){
-				if(!isVisited(VisitedList, nextState->toString())){
-					VisitedList->push_back(nextState->toString());
+				if(VisitedList->checkHash(nextState->toString())){
 					Q->push(nextState);
 				}
 			}
@@ -114,8 +112,7 @@ string breadthFirstSearch_with_VisitedList(string const initialState, string con
 		if(currentState->canMoveDown()){
 			nextState = currentState->moveDown();
 			if(!currentState->checkExpansionPath(nextState->toString())){
-				if(!isVisited(VisitedList, nextState->toString())){
-					VisitedList->push_back(nextState->toString());
+				if(VisitedList->checkHash(nextState->toString())){
 					Q->push(nextState);
 				}
 			}
@@ -123,8 +120,7 @@ string breadthFirstSearch_with_VisitedList(string const initialState, string con
 		if(currentState->canMoveLeft()){
 			nextState = currentState->moveLeft();
 			if(!currentState->checkExpansionPath(nextState->toString())){
-				if(!isVisited(VisitedList, nextState->toString())){
-					VisitedList->push_back(nextState->toString());
+				if(VisitedList->checkHash(nextState->toString())){
 					Q->push(nextState);
 				}
 			}
