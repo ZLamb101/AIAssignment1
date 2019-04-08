@@ -21,8 +21,8 @@ class Heap {
 		Heap(){last=-1; deletionComparisons=0;}  // constructor, consider  data[i]=0 an empty slot 
 		~Heap() { };//destructor 
 		void InsertHeap(Puzzle* newpiece); 
-		void DeleteRoot();
-		bool checkHeap(Puzzle* toCompare);		//Checks if the given state is already in the heap. If given state is smaller, swap puzzle pieces
+		void deleteAtIndex(int ix);
+		bool checkHeap(const string& state, int fCost);		//Checks if the given state is already in the heap. If given state is smaller, swap puzzle pieces
 		Puzzle* getRootData();
 		int getDeletionComparisons();
 };
