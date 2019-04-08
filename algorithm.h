@@ -2,12 +2,20 @@
 #ifndef __ALGORITHM_H__
 #define __ALGORITHM_H__
 
+
+
+
 #include <ctime>
 #include <string>
 #include <iostream>
 #include <algorithm>
 #include <cstdlib>
 #include <vector>
+
+#endif
+
+#ifndef __PUZZLE_H__
+#define __PUZZLE_H__
 
 #include "puzzle.h"
 

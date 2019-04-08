@@ -1,7 +1,7 @@
 
 #include "hashtable.h"
-#include "heap.h"
 #include "algorithm.h"
+#include "heap.h"
 #include <queue>
 #include <stack>
 using namespace std;
@@ -16,6 +16,7 @@ using namespace std;
 //
 ////////////////////////////////////////////////////////////////////////////////////////////
 string breadthFirstSearch(string const initialState, string const goalState, int &numOfStateExpansions, int& maxQLength, float &actualRunningTime){
+	Heap* test = new Heap();
     string path;
 	clock_t startTime;
 	startTime = clock();

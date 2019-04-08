@@ -1,6 +1,14 @@
+#ifndef __PUZZLE_H__
+#define __PUZZLE_H__
+#include "puzzle.h"
+#endif
+
 #include <iostream>
 #include <vector>
-#include "puzzle.h"
+
+
+
+
 
 using namespace std;
 
@@ -17,3 +25,4 @@ class Heap {
 		Puzzle* getRootData();
 		int getDeletionComparisons();
 };
+
