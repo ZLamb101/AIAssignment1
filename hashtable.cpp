@@ -34,6 +34,21 @@ bool HashTable::checkHash(const string &state){ // Return value tells us if the 
 	}
 }
 
+bool HashTable::checkHashNoAdd(const string &state){
+	int val = stoi(state);
+	val %= 370000;
+	if(table[val] == nullptr){ // State not found, adding to hash table & Q
+		return true;
+	} else {
+		if(checkList(table[val], state)){
+			// State in list, do not add to Q
+			return false;
+		} else {
+			return true;
+		}
+	}
+}
+
 bool HashTable::checkList(Node* ptr, const string &state){
 	do{
 		if(ptr->state == state){
