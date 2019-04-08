@@ -1,9 +1,9 @@
 
 #include "hashtable.h"
+#include "heap.h"
 #include "algorithm.h"
 #include <queue>
 #include <stack>
-#include <conio.h>
 using namespace std;
 
 
