@@ -16,7 +16,6 @@ using namespace std;
 //
 ////////////////////////////////////////////////////////////////////////////////////////////
 string breadthFirstSearch(string const initialState, string const goalState, int &numOfStateExpansions, int& maxQLength, float &actualRunningTime){
-	Heap* test = new Heap();
     string path;
 	clock_t startTime;
 	startTime = clock();
@@ -399,14 +398,16 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
 string aStar_ExpandedList(string const initialState, string const goalState, int &numOfStateExpansions, int& maxQLength, 
                                float &actualRunningTime, int &numOfDeletionsFromMiddleOfHeap, int &numOfLocalLoopsAvoided, int &numOfAttemptedNodeReExpansions, heuristicFunction heuristic){
 											 
-   string path;
-   clock_t startTime;
+    string path;
+    clock_t startTime;
    
-   numOfDeletionsFromMiddleOfHeap=0;
-   numOfLocalLoopsAvoided=0;
-   numOfAttemptedNodeReExpansions=0;
+
+    numOfDeletionsFromMiddleOfHeap=0;
+    numOfLocalLoopsAvoided=0;
+    numOfAttemptedNodeReExpansions=0;
 	actualRunningTime=0.0;	
 	startTime = clock();
+	Heap* test = new Heap();
 	Puzzle * currentState = new Puzzle(initialState, goalState);
     Puzzle * nextState;
     vector<Puzzle*>  *Q = new vector<Puzzle*>();

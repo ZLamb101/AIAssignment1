@@ -17,7 +17,7 @@ void Heap::InsertHeap(Puzzle* newpiece){
 		if(par_index>=0){
       Puzzle* temp_child = data.at(child_index);
 			Puzzle* temp_par = data.at(par_index);
-			if(temp_child->getFCost() > temp_par->getFCost()){
+			if(temp_child->getFCost() < temp_par->getFCost()){
 				swap(data[child_index],data[par_index]); 
 				swapping=true; 
 				child_index=par_index; 
@@ -42,16 +42,16 @@ void Heap::DeleteRoot(){
     Puzzle* temp_par = data.at(parentindex);
     if( leftindex <= last && rightindex <= last){
       deletionComparisons++;
-      if( temp_right->getFCost() < temp_left->getFCost() ){       //follow left
+      if( temp_right->getFCost() > temp_left->getFCost() ){       //follow left
         deletionComparisons++;
-        if(temp_left->getFCost() > temp_par->getFCost()){
+        if(temp_left->getFCost() < temp_par->getFCost()){
           swap(data[leftindex], data[parentindex]);
           parentindex=leftindex;
           swapping=true;
         }
       } else{                                                     //OR follow right
 			deletionComparisons++;
-        if(temp_right->getFCost() > temp_par->getFCost()){
+        if(temp_right->getFCost() < temp_par->getFCost()){
 		  	  swap(data[rightindex], data[parentindex]);
           parentindex=rightindex;
           swapping=true;
@@ -61,7 +61,7 @@ void Heap::DeleteRoot(){
     else{                                                         //in this case, there is no right child, only left child
       if(leftindex<=last){
               deletionComparisons++;
-        if(temp_left->getFCost() > temp_par->getFCost()){
+        if(temp_left->getFCost() < temp_par->getFCost()){
             swap(data[leftindex], data[parentindex]);
             parentindex=leftindex;
             swapping=true;
@@ -71,6 +71,10 @@ void Heap::DeleteRoot(){
     leftindex=parentindex*2+1;
     rightindex=parentindex*2+2;
   }
+}
+
+bool checkHeap(Puzzle* toCompare){    //Checks if the given state is already in the heap. If given state is smaller, swap puzzle pieces
+  
 }
 
 Puzzle* Heap::getRootData(){
