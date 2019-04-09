@@ -5,7 +5,7 @@ using namespace std;
 
 void Heap::InsertHeap(Puzzle* newpiece){
 	data.emplace_back(newpiece);
-	last++;  
+	last++; 
 	if (last==0) {return;}                                 //only one item in Heap  
 	int child_index=last;   
 	int par_index=0;   
@@ -15,7 +15,7 @@ void Heap::InsertHeap(Puzzle* newpiece){
 		if(child_index%2==0) {par_index=child_index/2-1;}    //right
 		else {par_index=child_index/2;}                      //left     
 		if(par_index>=0){
-      		Puzzle* temp_child = data.at(child_index);
+      Puzzle* temp_child = data.at(child_index);
 			Puzzle* temp_par = data.at(par_index);
 			if(temp_child->getFCost() < temp_par->getFCost()){
 				swap(data[child_index],data[par_index]); 
@@ -31,7 +31,7 @@ void Heap::deleteAtIndex(int ix){
 		deletions++;
 	}
   	data[ix]=data[last];
-  	data[last]=0;
+  	data.erase(data.begin() + last);
   	last--;
   	//fixing the heap
 
@@ -44,10 +44,10 @@ void Heap::deleteAtIndex(int ix){
 	  bool swapping=true;
 	  while(swapping){
 	    swapping=false;
-	    Puzzle* temp_left = data.at(leftindex);
-	    Puzzle* temp_right = data.at(rightindex);
 	    Puzzle* temp_par = data.at(ix);
 	    if( leftindex <= last && rightindex <= last){
+        Puzzle* temp_left = data.at(leftindex);
+        Puzzle* temp_right = data.at(rightindex);
 	      if( temp_right->getFCost() > temp_left->getFCost() ){       //follow left
 	        if(temp_left->getFCost() < temp_par->getFCost()){
 	          swap(data[leftindex], data[ix]);
@@ -56,7 +56,7 @@ void Heap::deleteAtIndex(int ix){
 	        }
 	      } else{                                                     //OR follow right
 	        if(temp_right->getFCost() < temp_par->getFCost()){
-			  	swap(data[rightindex], data[ix]);
+			  	  swap(data[rightindex], data[ix]);
 	          	ix=rightindex;
 	          	swapping=true;
 	        }
@@ -64,6 +64,7 @@ void Heap::deleteAtIndex(int ix){
 	    }
 	    else{                                                         //in this case, there is no right child, only left child
 	      if(leftindex<=last){
+          Puzzle* temp_left = data.at(leftindex);
 	        if(temp_left->getFCost() < temp_par->getFCost()){
 	            swap(data[leftindex], data[ix]);
 	            ix=leftindex;
@@ -92,7 +93,7 @@ void Heap::deleteAtIndex(int ix){
 
 // Return false to insert the value, return true to not insert.
 bool Heap::checkHeap(const string& state, int fCost){    //Checks if the given state is already in the heap. If given state is smaller, swap puzzle pieces
-  for(int i = 0; i < data.size(); i++){
+  for(int i = 0; i <= last; i++){
   	Puzzle* temp = data.at(i);
   	if(temp->toString() == state){
   		if(temp->getFCost() <= fCost){
