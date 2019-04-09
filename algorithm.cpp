@@ -193,6 +193,9 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 					Q->push(nextState);
 			}
 		}
+		if(Q->size() > maxQLength){
+			maxQLength = Q->size();
+		}
 		if(Q->empty()){
 			C++;
 			if(C > 50){
@@ -210,7 +213,8 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 		path = "";
 	} else{
 		path = currentState->getPath();
-	}    
+	} 
+	actualRunningTime = ((float)(clock() - startTime)/CLOCKS_PER_SEC);   
 	return path;
 }
 
