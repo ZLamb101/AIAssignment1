@@ -65,6 +65,8 @@ Puzzle::Puzzle(string const elements, string const goal){
 	strBoard = toString();	
 }
 
+Puzzle::~Puzzle(){cout << "destructed" << endl;}
+
 
 void Puzzle::setDepth(int d){
 	depth = d;

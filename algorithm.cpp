@@ -31,24 +31,32 @@ string breadthFirstSearch(string const initialState, string const goalState, int
 			nextState = currentState->moveUp();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 				Q->push(nextState);
+			} else{
+				delete nextState;
 			}
 		}
 		if(currentState->canMoveRight()){
 			nextState = currentState->moveRight();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 				Q->push(nextState);
+			} else{
+				delete nextState;
 			}
 		}
 		if(currentState->canMoveDown()){
 			nextState = currentState->moveDown();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 				Q->push(nextState);
+			} else{
+				delete nextState;
 			}
 		}
 		if(currentState->canMoveLeft()){
 			nextState = currentState->moveLeft();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 				Q->push(nextState);
+			} else{
+				delete nextState;
 			}
 		}
 		if(Q->size() == 0){

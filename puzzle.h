@@ -33,6 +33,8 @@ public:
 
     Puzzle(const Puzzle &p); //Constructor
     Puzzle(string const elements, string const goal);
+    ~Puzzle();
+
      
     void printBoard();
     
