@@ -400,8 +400,6 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
 											 
     string path;
     clock_t startTime;
-   
-
     numOfDeletionsFromMiddleOfHeap=0;
     numOfLocalLoopsAvoided=0;
     numOfAttemptedNodeReExpansions=0;
@@ -410,7 +408,7 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
 	Heap* test = new Heap();
 	Puzzle * currentState = new Puzzle(initialState, goalState);
     Puzzle * nextState;
-    vector<Puzzle*>  *Q = new vector<Puzzle*>();
+    Heap  *Q = new Heap();
     HashTable *ExpandedList = new HashTable();
     numOfStateExpansions = 0;
     maxQLength = 0;
@@ -424,18 +422,8 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
 				break;
 			}
 			// Find next best cost
-			Puzzle* temp = Q->at(0);
-			int min = temp->getGCost();
-			int min_ix = 0;
-			for(int i = 0; i < Q->size(); i++){
-				temp = Q->at(i);
-				if(temp->getGCost() < min){
-					min = temp->getGCost();
-					min_ix = i;
-				}
-			}
-			currentState = Q->at(min_ix);
-			Q->erase(Q->begin() + min_ix);
+			currentState = Q->getRootData();
+			Q->deleteAtIndex(0);
 			continue;
 		} else {
 			numOfStateExpansions++;
@@ -443,24 +431,10 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
 				nextState = currentState->moveUp();
 				if(!currentState->checkExpansionPath(nextState->toString())){
 					if(ExpandedList->checkHashNoAdd(nextState->toString())){
-						bool notInQ = true;
-						for(int i = 0; i < Q->size(); i++){
-							Puzzle* temp = Q->at(i);
-							if(temp->toString() == nextState->toString()){
-								notInQ = false;
-								nextState->updateHCost(heuristic);
-								nextState->updateFCost();
-								if(temp->getFCost() > nextState->getFCost()){
-									Q->erase(Q->begin() + i);
-									Q->emplace(Q->begin(), nextState);
-									break;
-								}
-							}
-						}
-						if(notInQ){
-							nextState->updateHCost(heuristic);
-							nextState->updateFCost();
-							Q->emplace(Q->begin(), nextState);
+						nextState->updateHCost(heuristic);
+						nextState->updateFCost();
+						if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
+							Q->InsertHeap(nextState);
 						}
 					}
 				}
@@ -469,24 +443,10 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
 				nextState = currentState->moveRight();
 				if(!currentState->checkExpansionPath(nextState->toString())){
 					if(ExpandedList->checkHashNoAdd(nextState->toString())){
-						bool notInQ = true;
-						for(int i = 0; i < Q->size(); i++){
-							Puzzle* temp = Q->at(i);
-							if(temp->toString() == nextState->toString()){
-								notInQ = false;
-								nextState->updateHCost(heuristic);
-								nextState->updateFCost();
-								if(temp->getFCost() > nextState->getFCost()){
-									Q->erase(Q->begin() + i);
-									Q->emplace(Q->begin(), nextState);
-									break;
-								}
-							}
-						}
-						if(notInQ){
-							nextState->updateHCost(heuristic);
-							nextState->updateFCost();
-							Q->emplace(Q->begin(), nextState);
+						nextState->updateHCost(heuristic);
+						nextState->updateFCost();
+						if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
+							Q->InsertHeap(nextState);
 						}
 					}
 				}
@@ -495,24 +455,10 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
 				nextState = currentState->moveDown();
 				if(!currentState->checkExpansionPath(nextState->toString())){
 					if(ExpandedList->checkHashNoAdd(nextState->toString())){
-						bool notInQ = true;
-						for(int i = 0; i < Q->size(); i++){
-							Puzzle* temp = Q->at(i);
-							if(temp->toString() == nextState->toString()){
-								notInQ = false;
-								nextState->updateHCost(heuristic);
-								nextState->updateFCost();
-								if(temp->getFCost() > nextState->getFCost()){
-									Q->erase(Q->begin() + i);
-									Q->emplace(Q->begin(), nextState);
-									break;
-								}
-							}
-						}
-						if(notInQ){
-							nextState->updateHCost(heuristic);
-							nextState->updateFCost();
-							Q->emplace(Q->begin(), nextState);
+						nextState->updateHCost(heuristic);
+						nextState->updateFCost();
+						if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
+							Q->InsertHeap(nextState);
 						}
 					}
 				}
@@ -521,24 +467,10 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
 				nextState = currentState->moveLeft();
 				if(!currentState->checkExpansionPath(nextState->toString())){
 					if(ExpandedList->checkHashNoAdd(nextState->toString())){
-						bool notInQ = true;
-						for(int i = 0; i < Q->size(); i++){
-							Puzzle* temp = Q->at(i);
-							if(temp->toString() == nextState->toString()){
-								notInQ = false;
-								nextState->updateHCost(heuristic);
-								nextState->updateFCost();
-								if(temp->getFCost() > nextState->getFCost()){
-									Q->erase(Q->begin() + i);
-									Q->emplace(Q->begin(), nextState);
-									break;
-								}
-							}
-						}
-						if(notInQ){
-							nextState->updateHCost(heuristic);
-							nextState->updateFCost();
-							Q->emplace(Q->begin(), nextState);
+						nextState->updateHCost(heuristic);
+						nextState->updateFCost();
+						if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
+							Q->InsertHeap(nextState);
 						}
 					}
 				}
@@ -552,21 +484,12 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
 				break;
 			}
 			// Find next best cost
-			Puzzle* temp = Q->at(0);
-			int min = temp->getFCost();
-			int min_ix = 0;
-			for(int i = 0; i < Q->size(); i++){
-				temp = Q->at(i);
-				if(temp->getFCost() < min){
-					min = temp->getFCost();
-					min_ix = i;
-				}
-			}
-			currentState = Q->at(min_ix);
-			Q->erase(Q->begin() + min_ix);
+			currentState = Q->getRootData();
+			Q->deleteAtIndex(0);
 		}
 	}
 //***********************************************************************************************************
+	numOfDeletionsFromMiddleOfHeap = Q->getDeletions();
 	actualRunningTime = ((float)(clock() - startTime)/CLOCKS_PER_SEC);
 	if(noResult){
 		path = "";

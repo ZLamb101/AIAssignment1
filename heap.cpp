@@ -27,15 +27,18 @@ void Heap::InsertHeap(Puzzle* newpiece){
 }
 
 void Heap::deleteAtIndex(int ix){
-  data[ix]=data[last];
-  data[last]=0;
-  last--;
-  //fixing the heap
+	if(ix !=0){
+		deletions++;
+	}
+  	data[ix]=data[last];
+  	data[last]=0;
+  	last--;
+  	//fixing the heap
 
-  int parentindex = ix/2;
-  Puzzle* temp_current = data[ix];
-  Puzzle* temp_parent = data[parentindex];
-  if(ix == 0 || temp_parent->getFCost() < temp_current->getFCost()){ // Filter down
+  	int parentindex = ix/2;
+  	Puzzle* temp_current = data[ix];
+  	Puzzle* temp_parent = data[parentindex];
+  	if(ix == 0 || temp_parent->getFCost() < temp_current->getFCost()){ // Filter down
 	  int leftindex = ix*2+1;
 	  int rightindex = ix*2+2;
 	  bool swapping=true;
@@ -45,16 +48,13 @@ void Heap::deleteAtIndex(int ix){
 	    Puzzle* temp_right = data.at(rightindex);
 	    Puzzle* temp_par = data.at(ix);
 	    if( leftindex <= last && rightindex <= last){
-	      deletionComparisons++;
 	      if( temp_right->getFCost() > temp_left->getFCost() ){       //follow left
-	        deletionComparisons++;
 	        if(temp_left->getFCost() < temp_par->getFCost()){
 	          swap(data[leftindex], data[ix]);
 	          ix=leftindex;
 	          swapping=true;
 	        }
 	      } else{                                                     //OR follow right
-			deletionComparisons++;
 	        if(temp_right->getFCost() < temp_par->getFCost()){
 			  	swap(data[rightindex], data[ix]);
 	          	ix=rightindex;
@@ -64,7 +64,6 @@ void Heap::deleteAtIndex(int ix){
 	    }
 	    else{                                                         //in this case, there is no right child, only left child
 	      if(leftindex<=last){
-	              deletionComparisons++;
 	        if(temp_left->getFCost() < temp_par->getFCost()){
 	            swap(data[leftindex], data[ix]);
 	            ix=leftindex;
@@ -111,6 +110,17 @@ Puzzle* Heap::getRootData(){
 	return data[0];
 }
 
-int Heap::getDeletionComparisons(){
-	return deletionComparisons;
+bool Heap::empty(){
+	if(last == -1){
+		return true;
+	}
+	return false;
+}
+
+int Heap::size(){
+	return data.size();
+}
+
+int Heap::getDeletions(){
+	return deletions;
 }
