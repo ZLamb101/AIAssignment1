@@ -92,9 +92,9 @@ string breadthFirstSearch_with_VisitedList(string const initialState, string con
     string path;
 	clock_t startTime;
 	startTime = clock();
-	Puzzle * currentState = new Puzzle(initialState, goalState);
-	Puzzle * nextState;
-	queue<Puzzle*>  *Q = new queue<Puzzle*>();
+	Puzzle2 * currentState = new Puzzle2(initialState, goalState);
+	Puzzle2 * nextState;
+	queue<Puzzle2*>  *Q = new queue<Puzzle2*>();
 	HashTable *VisitedList = new HashTable();
 	numOfStateExpansions = 0;
 	maxQLength = 0;
@@ -103,34 +103,34 @@ string breadthFirstSearch_with_VisitedList(string const initialState, string con
 		numOfStateExpansions++;
 		if(currentState->canMoveUp()){
 			nextState = currentState->moveUp();
-			if(!currentState->checkExpansionPath(nextState->toString())){
-				if(VisitedList->checkHash(nextState->toString())){
-					Q->push(nextState);
-				}
+			if(VisitedList->checkHash(nextState->toString())){
+				Q->push(nextState);
+			} else{
+				delete nextState;
 			}
 		}
 		if(currentState->canMoveRight()){
 			nextState = currentState->moveRight();
-			if(!currentState->checkExpansionPath(nextState->toString())){
-				if(VisitedList->checkHash(nextState->toString())){
-					Q->push(nextState);
-				}
+			if(VisitedList->checkHash(nextState->toString())){
+				Q->push(nextState);
+			} else{
+				delete nextState;
 			}
 		}
 		if(currentState->canMoveDown()){
 			nextState = currentState->moveDown();
-			if(!currentState->checkExpansionPath(nextState->toString())){
-				if(VisitedList->checkHash(nextState->toString())){
-					Q->push(nextState);
-				}
+			if(VisitedList->checkHash(nextState->toString())){
+				Q->push(nextState);
+			} else{
+				delete nextState;
 			}
 		}
 		if(currentState->canMoveLeft()){
 			nextState = currentState->moveLeft();
-			if(!currentState->checkExpansionPath(nextState->toString())){
-				if(VisitedList->checkHash(nextState->toString())){
-					Q->push(nextState);
-				}
+			if(VisitedList->checkHash(nextState->toString())){
+				Q->push(nextState);
+			} else{
+				delete nextState;
 			}
 		}
 		if(Q->size() == 0){
@@ -181,24 +181,32 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 			nextState = currentState->moveUp();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
+			} else{
+				delete nextState;
 			}
 		}
 		if(currentState->canMoveRight(C)){
 			nextState = currentState->moveRight();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
+			} else{
+				delete nextState;
 			}
 		}
 		if(currentState->canMoveDown(C)){
 			nextState = currentState->moveDown();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
+			} else{
+				delete nextState;
 			}
 		}
 		if(currentState->canMoveLeft(C)){
 			nextState = currentState->moveLeft();
 			if(!currentState->checkExpansionPath(nextState->toString())){
 					Q->push(nextState);
+			} else{
+				delete nextState;
 			}
 		}
 		if(Q->size() > maxQLength){
@@ -244,8 +252,8 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
    numOfAttemptedNodeReExpansions=0;
 	actualRunningTime=0.0;	
 	startTime = clock();
-	Puzzle * currentState = new Puzzle(initialState, goalState);
-    Puzzle * nextState;
+	Puzzle2 * currentState = new Puzzle2(initialState, goalState);
+    Puzzle2 * nextState;
     Heap  *Q = new Heap();
     HashTable *ExpandedList = new HashTable();
     numOfStateExpansions = 0;
@@ -267,46 +275,54 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
 			numOfStateExpansions++;
 			if(currentState->canMoveUp()){
 				nextState = currentState->moveUp();
-				if(!currentState->checkExpansionPath(nextState->toString())){
-					if(ExpandedList->checkHashNoAdd(nextState->toString())){
-						nextState->updateFCost();
-						if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
-							Q->InsertHeap(nextState);
-						}
+				if(ExpandedList->checkHashNoAdd(nextState->toString())){
+					nextState->updateFCost();
+					if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
+						Q->InsertHeap(nextState);
+					} else{
+						delete nextState;
 					}
+				}  else {
+					delete nextState;
 				}
 			}
 			if(currentState->canMoveRight()){
 				nextState = currentState->moveRight();
-				if(!currentState->checkExpansionPath(nextState->toString())){
-					if(ExpandedList->checkHashNoAdd(nextState->toString())){
-						nextState->updateFCost();
-						if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
-							Q->InsertHeap(nextState);
-						}
+				if(ExpandedList->checkHashNoAdd(nextState->toString())){
+					nextState->updateFCost();
+					if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
+						Q->InsertHeap(nextState);
+					} else{
+						delete nextState;
 					}
+				}  else {
+					delete nextState;
 				}
 			}
 			if(currentState->canMoveDown()){
 				nextState = currentState->moveDown();
-				if(!currentState->checkExpansionPath(nextState->toString())){
-					if(ExpandedList->checkHashNoAdd(nextState->toString())){
-						nextState->updateFCost();
-						if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
-							Q->InsertHeap(nextState);
-						}
+				if(ExpandedList->checkHashNoAdd(nextState->toString())){
+					nextState->updateFCost();
+					if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
+						Q->InsertHeap(nextState);
+					} else{
+						delete nextState;
 					}
+				}  else {
+					delete nextState;
 				}
 			}
 			if(currentState->canMoveLeft()){
 				nextState = currentState->moveLeft();
-				if(!currentState->checkExpansionPath(nextState->toString())){
-					if(ExpandedList->checkHashNoAdd(nextState->toString())){
-						nextState->updateFCost();
-						if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
-							Q->InsertHeap(nextState);
-						}
+				if(ExpandedList->checkHashNoAdd(nextState->toString())){
+					nextState->updateFCost();
+					if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
+						Q->InsertHeap(nextState);
+					} else{
+						delete nextState;
 					}
+				}  else {
+					delete nextState;
 				}
 			}
 			if(Q->size() > maxQLength){
@@ -353,8 +369,8 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
     numOfAttemptedNodeReExpansions=0;
 	actualRunningTime=0.0;	
 	startTime = clock();
-	Puzzle * currentState = new Puzzle(initialState, goalState);
-    Puzzle * nextState;
+	Puzzle2 * currentState = new Puzzle2(initialState, goalState);
+    Puzzle2 * nextState;
     Heap  *Q = new Heap();
     HashTable *ExpandedList = new HashTable();
     numOfStateExpansions = 0;
@@ -376,50 +392,58 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
 			numOfStateExpansions++;
 			if(currentState->canMoveUp()){
 				nextState = currentState->moveUp();
-				if(!currentState->checkExpansionPath(nextState->toString())){
-					if(ExpandedList->checkHashNoAdd(nextState->toString())){
-						nextState->updateHCost(heuristic);
-						nextState->updateFCost();
-						if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
-							Q->InsertHeap(nextState);
-						}
+				if(ExpandedList->checkHashNoAdd(nextState->toString())){
+					nextState->updateHCost(heuristic);
+					nextState->updateFCost();
+					if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
+						Q->InsertHeap(nextState);
+					} else {
+						delete nextState;
 					}
+				}  else {
+					delete nextState;
 				}
 			}
 			if(currentState->canMoveRight()){
 				nextState = currentState->moveRight();
-				if(!currentState->checkExpansionPath(nextState->toString())){
-					if(ExpandedList->checkHashNoAdd(nextState->toString())){
-						nextState->updateHCost(heuristic);
-						nextState->updateFCost();
-						if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
-							Q->InsertHeap(nextState);
-						}
+				if(ExpandedList->checkHashNoAdd(nextState->toString())){
+					nextState->updateHCost(heuristic);
+					nextState->updateFCost();
+					if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
+						Q->InsertHeap(nextState);
+					} else {
+						delete nextState;
 					}
+				}  else {
+					delete nextState;
 				}
 			}
 			if(currentState->canMoveDown()){
 				nextState = currentState->moveDown();
-				if(!currentState->checkExpansionPath(nextState->toString())){
-					if(ExpandedList->checkHashNoAdd(nextState->toString())){
-						nextState->updateHCost(heuristic);
-						nextState->updateFCost();
-						if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
-							Q->InsertHeap(nextState);
-						}
+				if(ExpandedList->checkHashNoAdd(nextState->toString())){
+					nextState->updateHCost(heuristic);
+					nextState->updateFCost();
+					if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
+						Q->InsertHeap(nextState);
+					} else {
+						delete nextState;
 					}
+				}  else {
+					delete nextState;
 				}
 			}
 			if(currentState->canMoveLeft()){
 				nextState = currentState->moveLeft();
-				if(!currentState->checkExpansionPath(nextState->toString())){
-					if(ExpandedList->checkHashNoAdd(nextState->toString())){
-						nextState->updateHCost(heuristic);
-						nextState->updateFCost();
-						if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
-							Q->InsertHeap(nextState);
-						}
+				if(ExpandedList->checkHashNoAdd(nextState->toString())){
+					nextState->updateHCost(heuristic);
+					nextState->updateFCost();
+					if(!Q->checkHeap(nextState->toString(), nextState->getFCost())){
+						Q->InsertHeap(nextState);
+					} else {
+						delete nextState;
 					}
+				}  else {
+					delete nextState;
 				}
 			}
 			if(Q->size() > maxQLength){

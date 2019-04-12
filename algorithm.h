@@ -18,6 +18,7 @@
 #define __PUZZLE_H__
 
 #include "puzzle.h"
+#include "puzzle2.h"
 
 const heuristicFunction HEURISTIC_FUNCTION=manhattanDistance;
 

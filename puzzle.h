@@ -5,7 +5,7 @@
 using namespace std;
 
 
-enum heuristicFunction{misplacedTiles, manhattanDistance};
+// enum heuristicFunction{misplacedTiles, manhattanDistance};
 
 
 class Puzzle{
@@ -36,11 +36,11 @@ public:
      
     void printBoard();
     
-    int h(heuristicFunction hFunction);
+    //int h(heuristicFunction hFunction);
      
 
     void updateFCost(); 
-    void updateHCost(heuristicFunction hFunction);
+    //void updateHCost(heuristicFunction hFunction);
     void updateDepth(){
 		 depth++;
 	}		 

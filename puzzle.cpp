@@ -74,9 +74,9 @@ int Puzzle::getDepth(){
 	return depth;
 }
 
-void Puzzle::updateHCost(heuristicFunction hFunction){
-	hCost = h(hFunction);
-}
+// void Puzzle::updateHCost(heuristicFunction hFunction){
+// 	hCost = h(hFunction);
+// }
 
 void Puzzle::updateFCost(){
 	fCost = hCost + pathLength;
@@ -95,51 +95,51 @@ int Puzzle::getGCost(){
 }
 
 //Heuristic function implementation
-int Puzzle::h(heuristicFunction hFunction){
+// int Puzzle::h(heuristicFunction hFunction){
 	
-	int sum=0;
-	int h=0;
-	int numOfMisplacedTiles=0;
+// 	int sum=0;
+// 	int h=0;
+// 	int numOfMisplacedTiles=0;
 	
-	switch(hFunction){
-		case misplacedTiles:			      
-				//place your implementation here
-			for(int i = 0; i < 3; i++){
-				for(int j = 0; j < 3; j++){
-					if(goalBoard[i][j] != board[i][j]){
-						if(board[i][j] != 0){
-							numOfMisplacedTiles++;
-						}
-					}
-				}
-			}	
-            h = numOfMisplacedTiles; 					
-		    break;
+// 	switch(hFunction){
+// 		case misplacedTiles:			      
+// 				//place your implementation here
+// 			for(int i = 0; i < 3; i++){
+// 				for(int j = 0; j < 3; j++){
+// 					if(goalBoard[i][j] != board[i][j]){
+// 						if(board[i][j] != 0){
+// 							numOfMisplacedTiles++;
+// 						}
+// 					}
+// 				}
+// 			}	
+//             h = numOfMisplacedTiles; 					
+// 		    break;
 		         
-		case manhattanDistance:
-		        //place your implementation here
-		    for(int i = 0; i < 3; i++){
-				for(int j = 0; j < 3; j++){
-					int num = board[i][j];
-					if(num == 0){
-						continue;
-					}
-					for(int k = 0; k < 3; k++){
-						for(int l = 0; l < 3; l++){
-							if (goalBoard[k][l] == num){
-								sum += abs(i-k) + abs(j-l);
-								k=3;
-								break;
-							}
-						}
-					}
-				}
-			}
-		    h = sum; 					
-		    break;              
-	};
-	return h;
-}
+// 		case manhattanDistance:
+// 		        //place your implementation here
+// 		    for(int i = 0; i < 3; i++){
+// 				for(int j = 0; j < 3; j++){
+// 					int num = board[i][j];
+// 					if(num == 0){
+// 						continue;
+// 					}
+// 					for(int k = 0; k < 3; k++){
+// 						for(int l = 0; l < 3; l++){
+// 							if (goalBoard[k][l] == num){
+// 								sum += abs(i-k) + abs(j-l);
+// 								k=3;
+// 								break;
+// 							}
+// 						}
+// 					}
+// 				}
+// 			}
+// 		    h = sum; 					
+// 		    break;              
+// 	};
+// 	return h;
+// }
 
 
 //converts board state into its string representation
