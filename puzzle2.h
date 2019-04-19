@@ -7,6 +7,9 @@ using namespace std;
 
 enum heuristicFunction{misplacedTiles, manhattanDistance};
 
+/*
+ *Puzzle2 class used for algorithms that don't make use of the expansion path thus saving memory space
+ */
 
 class Puzzle2{
 		

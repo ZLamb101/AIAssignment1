@@ -92,7 +92,6 @@ int Puzzle2::h(heuristicFunction hFunction){
 	
 	switch(hFunction){
 		case misplacedTiles:			      
-				//place your implementation here
 			for(int i = 0; i < 3; i++){
 				for(int j = 0; j < 3; j++){
 					if(goalBoard[i][j] != board[i][j]){
@@ -106,7 +105,6 @@ int Puzzle2::h(heuristicFunction hFunction){
 		    break;
 		         
 		case manhattanDistance:
-		        //place your implementation here
 		    for(int i = 0; i < 3; i++){
 				for(int j = 0; j < 3; j++){
 					int num = board[i][j];
@@ -143,8 +141,6 @@ string Puzzle2::toString(){
 		    n++;
 		} 
   }
-  
-//  cout << "toString = " << stringPath << endl;
   
   return stringPath;
 }

@@ -18,7 +18,6 @@ Puzzle::Puzzle(const Puzzle &p) : path(p.path){
 	
 	x0 = p.x0;
 	y0 = p.y0;
-	//path = p.path;
 	pathLength = p.pathLength;
 	hCost = p.hCost;
 	fCost = p.fCost;	
@@ -74,10 +73,6 @@ int Puzzle::getDepth(){
 	return depth;
 }
 
-// void Puzzle::updateHCost(heuristicFunction hFunction){
-// 	hCost = h(hFunction);
-// }
-
 void Puzzle::updateFCost(){
 	fCost = hCost + pathLength;
 }
@@ -94,53 +89,6 @@ int Puzzle::getGCost(){
 	return pathLength;
 }
 
-//Heuristic function implementation
-// int Puzzle::h(heuristicFunction hFunction){
-	
-// 	int sum=0;
-// 	int h=0;
-// 	int numOfMisplacedTiles=0;
-	
-// 	switch(hFunction){
-// 		case misplacedTiles:			      
-// 				//place your implementation here
-// 			for(int i = 0; i < 3; i++){
-// 				for(int j = 0; j < 3; j++){
-// 					if(goalBoard[i][j] != board[i][j]){
-// 						if(board[i][j] != 0){
-// 							numOfMisplacedTiles++;
-// 						}
-// 					}
-// 				}
-// 			}	
-//             h = numOfMisplacedTiles; 					
-// 		    break;
-		         
-// 		case manhattanDistance:
-// 		        //place your implementation here
-// 		    for(int i = 0; i < 3; i++){
-// 				for(int j = 0; j < 3; j++){
-// 					int num = board[i][j];
-// 					if(num == 0){
-// 						continue;
-// 					}
-// 					for(int k = 0; k < 3; k++){
-// 						for(int l = 0; l < 3; l++){
-// 							if (goalBoard[k][l] == num){
-// 								sum += abs(i-k) + abs(j-l);
-// 								k=3;
-// 								break;
-// 							}
-// 						}
-// 					}
-// 				}
-// 			}
-// 		    h = sum; 					
-// 		    break;              
-// 	};
-// 	return h;
-// }
-
 
 //converts board state into its string representation
 string Puzzle::toString(){
@@ -155,7 +103,6 @@ string Puzzle::toString(){
 		} 
   }
   
-//  cout << "toString = " << stringPath << endl;
   
   return stringPath;
 }
@@ -357,13 +304,10 @@ int Puzzle::getPathLength(){
 }
 
 bool Puzzle::checkExpansionPath(const string &nextStr){
-	//cout << "State is " << nextStr << endl << "Path is:";
 	for(int i = 0; i < expansionPath.size(); i++){
-		//cout << expansionPath[i] << " ";
 		if(nextStr == expansionPath[i]){
 			return true;
 		}
 	}
-	//cout << endl;
 	return false;
 }

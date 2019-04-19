@@ -4,8 +4,9 @@
 
 using namespace std;
 
-
-// enum heuristicFunction{misplacedTiles, manhattanDistance};
+/*
+ *Puzzle class used for algorithms that make use of the expansion path
+ */
 
 
 class Puzzle{
@@ -35,12 +36,8 @@ public:
     Puzzle(string const elements, string const goal);
      
     void printBoard();
-    
-    //int h(heuristicFunction hFunction);
-     
 
     void updateFCost(); 
-    //void updateHCost(heuristicFunction hFunction);
     void updateDepth(){
 		 depth++;
 	}		 
