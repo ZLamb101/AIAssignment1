@@ -15,15 +15,15 @@ void Heap::InsertHeap(Puzzle2* newpiece){
 		if(child_index%2==0) {par_index=child_index/2-1;}    //right
 		else {par_index=child_index/2;}                      //left     
 		if(par_index>=0){
-      Puzzle2* temp_child = data.at(child_index);
+      		Puzzle2* temp_child = data.at(child_index);
 			Puzzle2* temp_par = data.at(par_index);
 			if(temp_child->getFCost() < temp_par->getFCost()){
 				swap(data[child_index],data[par_index]); 
 				swapping=true; 
 				child_index=par_index; 
-			}   
-		} 
-	} 
+			}
+		}
+	}
 }
 
 void Heap::deleteAtIndex(int ix){
@@ -38,7 +38,12 @@ void Heap::deleteAtIndex(int ix){
   	}
   	//Rearranging the heap
 
-  	int parentindex = ix/2;
+  	int parentindex;
+    if(ix % 2 == 0){
+        parentindex = ix/2 - 1;
+    } else{
+        parentindex = ix/2;
+    }
   	Puzzle2* temp_current = data[ix];
   	Puzzle2* temp_parent = data[parentindex];
 
