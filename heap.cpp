@@ -1,5 +1,5 @@
 #include "heap.h"
-
+#include <exception>
 
 using namespace std;
 
@@ -10,7 +10,7 @@ void Heap::InsertHeap(Puzzle2* newpiece){
 	int child_index=last;   
 	int par_index=0;   
 	bool swapping=true;   
-	while (swapping){                                      //fix the heap     
+	while (swapping){                                      //Rearrange the heap     
 		swapping=false; 
 		if(child_index%2==0) {par_index=child_index/2-1;}    //right
 		else {par_index=child_index/2;}                      //left     
@@ -30,14 +30,18 @@ void Heap::deleteAtIndex(int ix){
 	if(ix !=0){
 		deletions++;
 	}
-  	data[ix]=data[last];
-  	data.erase(data.begin() + last);
+  	data[ix]=data[last];				//Replace the Puzzle piece at the given index with the last puzzle piece in the heap
+	data.erase(data.begin() + last);	//Delete the Puzzle peice at the end
   	last--;
-  	//fixing the heap
+  	if(data.size() <= 0){
+  		return;
+  	}
+  	//Rearranging the heap
 
   	int parentindex = ix/2;
   	Puzzle2* temp_current = data[ix];
   	Puzzle2* temp_parent = data[parentindex];
+
   	if(ix == 0 || temp_parent->getFCost() < temp_current->getFCost()){ // Filter down
 	  int leftindex = ix*2+1;
 	  int rightindex = ix*2+2;
@@ -46,27 +50,26 @@ void Heap::deleteAtIndex(int ix){
 	    swapping=false;
 	    Puzzle2* temp_par = data.at(ix);
 	    if( leftindex <= last && rightindex <= last){
-        Puzzle2* temp_left = data.at(leftindex);
-        Puzzle2* temp_right = data.at(rightindex);
-	      if( temp_right->getFCost() > temp_left->getFCost() ){       //follow left
-	        if(temp_left->getFCost() < temp_par->getFCost()){
-	          swap(data[leftindex], data[ix]);
-	          ix=leftindex;
-	          swapping=true;
+	    	Puzzle2* temp_left = data.at(leftindex);
+  			Puzzle2* temp_right = data.at(rightindex);
+		    if( temp_right->getFCost() > temp_left->getFCost() ){       //follow left
+		        if(temp_left->getFCost() < temp_par->getFCost()){
+		        	swap(data[leftindex], data[ix]);
+		          	ix=leftindex;
+		          	swapping=true;
+		        }
+		    } else{                                                     //OR follow right
+	        	if(temp_right->getFCost() < temp_par->getFCost()){
+	        		swap(data[rightindex], data[ix]);
+	          		ix=rightindex;
+	          		swapping=true;
+	        	}
 	        }
-	      } else{                                                     //OR follow right
-	        if(temp_right->getFCost() < temp_par->getFCost()){
-			  	  swap(data[rightindex], data[ix]);
-	          	ix=rightindex;
-	          	swapping=true;
-	        }
-	      }
-	    }
-	    else{                                                         //in this case, there is no right child, only left child
+	    } else{                                                         //in this case, there is no right child, only left child
 	      if(leftindex<=last){
-          Puzzle2* temp_left = data.at(leftindex);
+          	Puzzle2* temp_left = data.at(leftindex);
 	        if(temp_left->getFCost() < temp_par->getFCost()){
-	            swap(data[leftindex], data[ix]);
+	        	swap(data[leftindex], data[ix]);
 	            ix=leftindex;
 	            swapping=true;
 	        }

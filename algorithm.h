@@ -28,7 +28,6 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 
 
 string breadthFirstSearch_with_VisitedList(string const initialState, string const goalState, int &numOfStateExpansions, int& maxQLength, float &actualRunningTime);
-bool isVisited(const vector<string> *VisitedList,const string &state);
 
 string breadthFirstSearch(string const initialState, string const goalState, int &numOfStateExpansions, int& maxQLength, float &actualRunningTime);
 

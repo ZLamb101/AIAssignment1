@@ -3,8 +3,8 @@
 //  
 //  Start-up codes by n.h.reyes@massey.ac.nz
 //
-//  Name(s):
-//  Date:
+//  Name(s): Jordan Drumm, Benjamin Upton, Zane Lamb
+//  Date:19/04/2019
 //
 //////////////////////////////////////////////////////////////////////////
 /*

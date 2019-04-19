@@ -25,8 +25,15 @@ string breadthFirstSearch(string const initialState, string const goalState, int
 	numOfStateExpansions = 0;
 	maxQLength = 0;
 	bool noResult = false;
+	// Loop until the goal state is found or the Queue is empty
 	while(!currentState->goalMatch()){
 		numOfStateExpansions++;
+		/*
+		 * For all four directions:
+		 * Checks if a given move is possible
+		 * If so, checks whether it is on the puzzle pieces' path
+		 * If not, add to the queue
+		 */
 		if(currentState->canMoveUp()){
 			nextState = currentState->moveUp();
 			if(!currentState->checkExpansionPath(nextState->toString())){
@@ -59,14 +66,17 @@ string breadthFirstSearch(string const initialState, string const goalState, int
 				delete nextState;
 			}
 		}
+		//If the queue is empty, there is no solution so break out of the loop
 		if(Q->size() == 0){
 			noResult = true;
 			break;
 		}
+		//If the Q is bigger than previously recorded max length, replace max length
 		if(Q->size() > maxQLength){
 			maxQLength = Q->size();
 		}
 		delete currentState;
+		//Get the new state to expand from the front of the queue and delete it from the queue
 		currentState = Q->front();
 		Q->pop();
 	}
@@ -99,8 +109,15 @@ string breadthFirstSearch_with_VisitedList(string const initialState, string con
 	numOfStateExpansions = 0;
 	maxQLength = 0;
 	bool noResult = false;
+	// Loop until the goal state is found or the Queue is empty
 	while(!currentState->goalMatch()){
 		numOfStateExpansions++;
+		/*
+		 * For all four directions:
+		 * Checks if a given move is possible
+		 * If so, checks whether the state has been visited by looking it up in the hash table
+		 * If not, add to the queue
+		 */
 		if(currentState->canMoveUp()){
 			nextState = currentState->moveUp();
 			if(VisitedList->checkHash(nextState->toString())){
@@ -133,13 +150,16 @@ string breadthFirstSearch_with_VisitedList(string const initialState, string con
 				delete nextState;
 			}
 		}
+		//If the queue is empty, there is no solution so break out of the loop
 		if(Q->size() == 0){
 			noResult = true;
 			break;
 		}
+		//If the Q is bigger than previously recorded max length, replace max length
 		if(Q->size() > maxQLength){
 			maxQLength = Q->size();
 		}
+		//Get the new state to expand from the front of the queue and delete it from the queue
 		delete currentState;
 		currentState = Q->front();
 		Q->pop();
@@ -154,17 +174,14 @@ string breadthFirstSearch_with_VisitedList(string const initialState, string con
 	}           
 	return path;
 }
-	
 
-bool isVisited(const vector<string> *VisitedList, const string &state){
-	if (find(VisitedList->begin(), VisitedList->end(), state) != VisitedList->end() ){
-		return true;
-	} else {
-		return false;
-	}
-}
-
-
+///////////////////////////////////////////////////////////////////////////////////////////
+//
+// Search Algorithm:  Progressive Deepening Search No Visited List
+//
+// Move Generator:  
+//
+////////////////////////////////////////////////////////////////////////////////////////////
 string progressiveDeepeningSearch_No_VisitedList(string const initialState, string const goalState, int &numOfStateExpansions, int& maxQLength, float &actualRunningTime, int ultimateMaxDepth){
 	string path;
 	clock_t startTime;
@@ -174,9 +191,17 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 	stack<Puzzle*>  *Q = new stack<Puzzle*>();
 	numOfStateExpansions = 0;
 	maxQLength = 0;
+	// Set the Current depth to 1
 	int C = 1;
+	// Loop until the goal state is found or the Queue is empty
 	while(!currentState->goalMatch()){
 		numOfStateExpansions++;
+		/*
+		 * For all four directions:
+		 * Checks if a given move is possible
+		 * If so, checks whether the state has been expanded
+		 * If not, add to the queue
+		 */
 		if(currentState->canMoveUp(C)){
 			nextState = currentState->moveUp();
 			if(!currentState->checkExpansionPath(nextState->toString())){
@@ -209,9 +234,11 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 				delete nextState;
 			}
 		}
+		//If the Q is bigger than previously recorded max length, replace max length
 		if(Q->size() > maxQLength){
 			maxQLength = Q->size();
 		}
+		//If Q is empty, check whether the current depth exceeds the max depth (50). If so break, otherwise reset to original state
 		if(Q->empty()){
 			C++;
 			if(C > 50){
@@ -236,7 +263,7 @@ string progressiveDeepeningSearch_No_VisitedList(string const initialState, stri
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //
-// Search Algorithm:  
+// Search Algorithm:  Uniform Cost with Expanded List
 //
 // Move Generator:  
 //
@@ -259,6 +286,7 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
     numOfStateExpansions = 0;
     maxQLength = 0;
     bool noResult = false;
+    // Loop until the goal state is found or the Queue is empty
 	while(!currentState->goalMatch()){
 		if(!ExpandedList->checkHash(currentState->toString())){
 			// State has previously been expanded
@@ -273,6 +301,14 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
 			continue;
 		} else {
 			numOfStateExpansions++;
+			/*
+			 * For all four directions:
+			 * Checks if a given move is possible
+			 * If so, checks whether the state has been visited in the hashtable
+			 * Updates the FCost
+			 * Checks the heap for the given state and chooses the one with the best cost to keep
+			 * If it's not in the heap, insert it
+			 */
 			if(currentState->canMoveUp()){
 				nextState = currentState->moveUp();
 				if(ExpandedList->checkHashNoAdd(nextState->toString())){
@@ -325,10 +361,12 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
 					delete nextState;
 				}
 			}
+			//If the Q is bigger than previously recorded max length, replace max length
 			if(Q->size() > maxQLength){
 				maxQLength = Q->size();
 			}
 			delete currentState;
+			//If the queue is empty, there is no solution so break out of the loop
 			if(Q->empty()){
 				noResult = true;
 				break;
@@ -354,7 +392,7 @@ string uniformCost_ExpandedList(string const initialState, string const goalStat
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //
-// Search Algorithm:  
+// Search Algorithm:  A* with expanded list
 //
 // Move Generator:  
 //
@@ -376,6 +414,7 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
     numOfStateExpansions = 0;
     maxQLength = 0;
     bool noResult = false;
+    // Loop until the goal state is found or the Queue is empty
 	while(!currentState->goalMatch()){
 		if(!ExpandedList->checkHash(currentState->toString())){
 			// State has previously been expanded
@@ -390,6 +429,14 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
 			continue;
 		} else {
 			numOfStateExpansions++;
+			/*
+			 * For all four directions:
+			 * Checks if a given move is possible
+			 * If so, checks whether the state has been visited in the hashtable
+			 * Updates the FCost
+			 * Checks the heap for the given state and chooses the one with the best cost to keep
+			 * If it's not in the heap, insert it
+			 */
 			if(currentState->canMoveUp()){
 				nextState = currentState->moveUp();
 				if(ExpandedList->checkHashNoAdd(nextState->toString())){
@@ -446,10 +493,12 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
 					delete nextState;
 				}
 			}
+			//If the Q is bigger than previously recorded max length, replace max length
 			if(Q->size() > maxQLength){
 				maxQLength = Q->size();
 			}
 			delete currentState;
+			//If the queue is empty, there is no solution so break out of the loop
 			if(Q->empty()){
 				noResult = true;
 				break;
@@ -469,7 +518,3 @@ string aStar_ExpandedList(string const initialState, string const goalState, int
 	}       
 	return path;	
 }
-
-
-
-
